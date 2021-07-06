@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/silverAppPalette"
+    tools:context=".Activities.StartActivity">
+
+    <ImageButton
+        android:id="@+id/add_collection_back"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_main_background"
+        android:backgroundTint="@color/greyAppPalette"
+        android:scaleType="center"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/add_collection_name"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="144dp"
+        android:layout_marginBottom="29dp"
+        android:background="@drawable/button_main_background"
+        android:backgroundTint="@color/greyAppPalette"
+        android:ems="10"
+        android:hint="Enter Collection Name"
+        android:inputType="textPersonName"
+        android:padding="30px"
+        android:textColorHint="@color/blackAppPalette"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_collection_back" />
+
+    <Button
+        android:id="@+id/add_collection_submit"
+        android:layout_width="150dp"
+        android:layout_height="150px"
+        android:layout_marginTop="29dp"
+        android:layout_marginBottom="364dp"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/blackAppPalette"
+        android:textSize="45px"
+        android:textStyle="bold"
+        app:backgroundTint="@color/white"
+        app:cornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_collection_name" />
+</androidx.constraintlayout.widget.ConstraintLayout>
