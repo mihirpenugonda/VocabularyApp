@@ -122,6 +122,7 @@ public class SearchActivity extends AppCompatActivity implements SearchMnemonicA
 
                         Elements data2 = doc.select("div[class=media-body]");
                         Elements data = doc.select("div[class=card-text] p");
+                       
 
                         for (Element indData : data) {
                             if (indData.select("p").text() == "") {
@@ -142,12 +143,16 @@ public class SearchActivity extends AppCompatActivity implements SearchMnemonicA
                             }
                         }
 
+
+
                         definitionText.remove(0);
 
 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+
 
                     handler.post(new Runnable() {
                         @Override
