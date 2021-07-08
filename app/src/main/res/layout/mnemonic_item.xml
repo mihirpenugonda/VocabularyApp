@@ -4,14 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="325dp"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
     android:backgroundTint="@color/blackAppPalette"
-    app:cardCornerRadius="30dp"
-    android:layout_marginRight="5dp">
+    app:cardCornerRadius="30dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="325dp"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/mnemonic_text"
             android:layout_width="match_parent"
@@ -26,31 +28,21 @@
             android:text="ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"
             android:textColor="@color/white"
             android:textSize="40px"
-            app:layout_constraintBottom_toTopOf="@+id/add_mnemonic_click_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+/>
 
         <ImageButton
             android:id="@+id/add_mnemonic_click_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="end"
-            android:layout_marginStart="240dp"
-            android:layout_marginLeft="240dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
+            android:layout_gravity="end"
             android:layout_marginBottom="20dp"
             android:background="@drawable/button_main_background"
             android:backgroundTint="@color/greyAppPalette"
             android:scaleType="center"
             android:src="@drawable/add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mnemonic_text" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+ />
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>
 

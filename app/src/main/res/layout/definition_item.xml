@@ -3,14 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="325dp"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
     android:backgroundTint="@color/blackAppPalette"
-    app:cardCornerRadius="30dp"
-    android:layout_marginRight="5dp">
+    app:cardCornerRadius="30dp">
+    >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="325dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
->
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/definition_text"
@@ -70,7 +72,8 @@
 
         </LinearLayout>
 
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
+

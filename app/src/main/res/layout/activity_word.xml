@@ -39,7 +39,7 @@
     <include
         android:id="@+id/definition_layout"
         layout="@layout/definition_item"
-        android:layout_width="wrap_content"
+        android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="31dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,7 @@
     <include
         layout="@layout/mnemonic_item"
         android:id="@+id/mnemonic_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:layout_marginBottom="117dp"

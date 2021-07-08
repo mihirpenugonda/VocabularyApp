@@ -16,6 +16,9 @@ import com.crest.vocabularyapp.Models.DatabaseHelper;
 import com.crest.vocabularyapp.Models.Word;
 import com.crest.vocabularyapp.R;
 import com.crest.vocabularyapp.databinding.ActivitySearchBinding;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -62,9 +65,6 @@ public class SearchActivity extends AppCompatActivity implements SearchMnemonicA
 
         DatabaseHelper db = new DatabaseHelper(this);
 
-        if(function.equals("search")) {
-            binding.addWordCollectionButton.setVisibility(View.GONE);
-        }
 
         binding.addWordCollectionButton.setOnClickListener(v -> {
             Word addWord = new Word();
@@ -79,26 +79,39 @@ public class SearchActivity extends AppCompatActivity implements SearchMnemonicA
             else Log.d("FUCKING WORK", "WORKKK");
         });
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        binding.searchMnemomicRecyclerView.setLayoutManager(layoutManager);
-        binding.searchDefinitionRecyclerView.setLayoutManager(layoutManager2);
+
+        // Old Layout Managers
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+//        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+//        binding.searchMnemonicRecyclerView.setLayoutManager(layoutManager);
+//        binding.searchDefinitionRecyclerView.setLayoutManager(layoutManager2);
+
+
+        // Google FlexLayoutManager Implementation for Definition
+        FlexboxLayoutManager definitionLayoutManager = new FlexboxLayoutManager(getApplicationContext());
+        definitionLayoutManager.setFlexDirection(FlexDirection.ROW);
+        definitionLayoutManager.setJustifyContent(JustifyContent.CENTER);
+        binding.searchDefinitionRecyclerView.setLayoutManager(definitionLayoutManager);
+
+        // Google FlexLayoutManager Implementation for Mnemonic
+        FlexboxLayoutManager mnemonicLayoutManager = new FlexboxLayoutManager(getApplicationContext());
+        mnemonicLayoutManager.setFlexDirection(FlexDirection.ROW);
+        mnemonicLayoutManager.setJustifyContent(JustifyContent.CENTER);
+        binding.searchMnemonicRecyclerView.setLayoutManager(mnemonicLayoutManager);
 
         if(function.equals("search")) {
             definitionAdapter = new SearchDefinitionAdapter(getApplicationContext(), definitionText, null, true);
             binding.searchDefinitionRecyclerView.setAdapter(definitionAdapter);
 
             mnemonicAdapter = new SearchMnemonicAdapter(getApplicationContext(), text, null, true);
-            binding.searchMnemomicRecyclerView.setAdapter(mnemonicAdapter);
         }
         else {
             definitionAdapter = new SearchDefinitionAdapter(getApplicationContext(), definitionText, this, false);
             binding.searchDefinitionRecyclerView.setAdapter(definitionAdapter);
 
             mnemonicAdapter = new SearchMnemonicAdapter(getApplicationContext(), text, this, false);
-            binding.searchMnemomicRecyclerView.setAdapter(mnemonicAdapter);
         }
-
+        binding.searchMnemonicRecyclerView.setAdapter(mnemonicAdapter);
 
 
         binding.searchPageSubmit.setOnClickListener(v -> {
@@ -160,6 +173,12 @@ public class SearchActivity extends AppCompatActivity implements SearchMnemonicA
                             prevViewDefinition = null;
                             prevPosDefinition = -100;
 
+                            if(!function.equals("search")) {
+                                binding.addWordCollectionButton.setVisibility(View.VISIBLE);
+                            }
+
+                            binding.placeholderSearchPage.setVisibility(View.GONE);
+                            binding.mainSearchContent.setVisibility(View.VISIBLE);
                             definitionAdapter.notifyDataSetChanged();
                             mnemonicAdapter.notifyDataSetChanged();
                         }
