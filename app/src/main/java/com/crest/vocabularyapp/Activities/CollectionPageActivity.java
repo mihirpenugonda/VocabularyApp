@@ -1,14 +1,17 @@
 package com.crest.vocabularyapp.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.crest.vocabularyapp.Adapters.CollectionWordAdapter;
+import com.crest.vocabularyapp.Adapters.MainCollectionAdapter;
 import com.crest.vocabularyapp.Models.DatabaseHelper;
 import com.crest.vocabularyapp.Models.Word;
 import com.crest.vocabularyapp.databinding.ActivityCollectionPageBinding;
@@ -73,6 +76,26 @@ public class CollectionPageActivity extends AppCompatActivity implements Collect
         i.putExtra("WORD_MNEMONIC", word.getMnemonic());
         startActivity(i);
     }
+
+    @Override
+    public void setLongClickListener(int position) {
+        new AlertDialog.Builder(CollectionPageActivity.this)
+                .setTitle("Delete Word")
+                .setMessage("Are you sure you want to delete " + collectionWord.get(position).getWordName())
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        db.deleteWordFromCollection(collectionWord.get(position).getWordId());
+                        collectionWord = db.getCollectionsWord(collectionId);
+                        CollectionWordAdapter adapter = new CollectionWordAdapter(CollectionPageActivity.this, collectionWord, CollectionPageActivity.this);
+                        binding.collectionWordRecyclerView.setAdapter(adapter);
+                    }
+                })
+
+                .setNegativeButton("No", null)
+                .show();
+    }
+
 
     @Override
     protected void onResume() {

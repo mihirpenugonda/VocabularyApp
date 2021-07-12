@@ -1,6 +1,7 @@
 package com.crest.vocabularyapp.Adapters;
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +79,7 @@ public class MainCollectionAdapter extends RecyclerView.Adapter<MainCollectionAd
 
     public interface ItemClickListener {
         void onItemClick(int position);
+
         void onItemLongClick(int position);
     }
 }

@@ -1,7 +1,9 @@
 package com.crest.vocabularyapp.Adapters;
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -50,7 +52,7 @@ public class CollectionWordAdapter extends RecyclerView.Adapter<CollectionWordAd
         return wordList.size();
     }
 
-    public class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, View.OnLongClickListener {
 
         CollectionWordItemBinding binding;
         CollectionWordClickListener collectionWordClickListener;
@@ -60,11 +62,24 @@ public class CollectionWordAdapter extends RecyclerView.Adapter<CollectionWordAd
             binding = CollectionWordItemBinding.bind(itemView);
             this.collectionWordClickListener = collectionWordClickListener;
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             collectionWordClickListener.setClickListener(getAdapterPosition());
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(getAdapterPosition(), 101, 0, "Delete");
+
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            collectionWordClickListener.setLongClickListener(getAdapterPosition());
+            return true;
         }
     }
 
@@ -75,5 +90,6 @@ public class CollectionWordAdapter extends RecyclerView.Adapter<CollectionWordAd
 
     public interface CollectionWordClickListener {
         void setClickListener(int position);
+        void setLongClickListener(int position);
     }
 }

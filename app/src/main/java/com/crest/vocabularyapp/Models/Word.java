@@ -1,10 +1,18 @@
 package com.crest.vocabularyapp.Models;
 
-import java.io.Serializable;
+public class Word {
 
-public class Word implements Serializable {
-    private String wordName, definition, mnemonic, type;
+    private String wordName;
+
+    private String definition;
+
+    private String mnemonic;
+
+    private String type;
+
     private int collectionId;
+
+    private int wordId;
 
     public Word(String wordName, String definition, String mnemonic, String type) {
         this.wordName = wordName;
@@ -55,5 +63,13 @@ public class Word implements Serializable {
 
     public void setCollectionId(int collectionId) {
         this.collectionId = collectionId;
+    }
+
+    public int getWordId() {
+        return wordId;
+    }
+
+    public void setWordId(int wordId) {
+        this.wordId = wordId;
     }
 }

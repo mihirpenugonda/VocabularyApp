@@ -1,11 +1,15 @@
 package com.crest.vocabularyapp.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,10 +82,21 @@ public class MainActivity extends AppCompatActivity implements MainCollectionAda
 
     @Override
     public void onItemLongClick(int position) {
-//        Collection removeCollection = collections.get(position);
-//        collections.remove(position);
-//
-//        adapter.notifyDataSetChanged();
-        Log.d("LONG CLICK EWORD", "WORK");
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Delete Collection")
+                .setMessage("Are you sure you want to delete " + collections.get(position).getName())
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        db.deleteCollection(collections.get(position).getId());
+                        collections = db.getCollections();
+                        MainCollectionAdapter adapter = new MainCollectionAdapter(MainActivity.this, collections, MainActivity.this);
+                        binding.collectionRecyclerView.setAdapter(adapter);
+                    }
+                })
+
+                .setNegativeButton("No", null)
+                .show();
     }
+
 }

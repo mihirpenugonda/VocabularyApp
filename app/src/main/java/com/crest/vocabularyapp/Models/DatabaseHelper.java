@@ -133,6 +133,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean deleteWordFromCollection(int deleteId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String queryDeleteWords = "delete from " + WORD_TABLE + " where " + WORD_TABLE_ID + "=" + deleteId;
+
+        db.execSQL(queryDeleteWords);
+
+        return true;
+    }
+
     public ArrayList<Word> getCollectionsWord(int collectionId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "select * from " + WORD_TABLE + " where " + COLLECTION_TABLE_ID + " = " + collectionId;
@@ -144,6 +154,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Word word = new Word();
                 word.setCollectionId(cursor.getInt(cursor.getColumnIndex(COLLECTION_TABLE_ID)));
+                word.setWordId(cursor.getInt(cursor.getColumnIndex(WORD_TABLE_ID)));
                 word.setDefinition(cursor.getString(cursor.getColumnIndex(WORD_TABLE_DEFINITION)));
                 word.setMnemonic(cursor.getString(cursor.getColumnIndex(WORD_TABLE_MNEMONIC)));
                 word.setWordName(cursor.getString(cursor.getColumnIndex(WORD_TABLE_NAME)));
