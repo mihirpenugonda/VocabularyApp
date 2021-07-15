@@ -30,6 +30,51 @@
             android:textSize="40px"
 />
 
+        <RelativeLayout
+            android:id="@+id/mnemonic_like_dislikes_layout"
+            android:layout_width="325dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/no_of_likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="45"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="20dp"
+                android:layout_alignParentLeft="true"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_thumb_up_24"
+                android:backgroundTint="@color/white"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="40dp"/>
+
+            <TextView
+                android:id="@+id/no_of_dislikes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="45"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/white"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="48dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_thumb_down_alt_24"
+                android:backgroundTint="@color/white"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                />
+
+        </RelativeLayout>
+
         <ImageButton
             android:id="@+id/add_mnemonic_click_button"
             android:layout_width="40dp"

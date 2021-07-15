@@ -12,8 +12,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.VocabularyApp">
-        <activity android:name=".Activities.WordActivity"></activity>
+        android:theme="@style/Theme.VocabularyApp"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Activities.ProfileActivity"></activity>
+        <activity android:name=".Activities.WordActivity" />
         <activity android:name=".Activities.CollectionPageActivity" />
         <activity android:name=".Activities.AddCollectionActivity" />
         <activity

@@ -8,11 +8,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.crest.vocabularyapp.Adapters.SearchDefinitionAdapter;
 import com.crest.vocabularyapp.Adapters.SearchMnemonicAdapter;
 import com.crest.vocabularyapp.Models.DatabaseHelper;
+import com.crest.vocabularyapp.Models.Definition;
+import com.crest.vocabularyapp.Models.Mnemonic;
 import com.crest.vocabularyapp.Models.Word;
 import com.crest.vocabularyapp.R;
 import com.crest.vocabularyapp.databinding.ActivitySearchBinding;
@@ -20,22 +25,22 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import static android.content.ContentValues.TAG;
 
 public class SearchActivity extends AppCompatActivity implements SearchMnemonicAdapter.MnemonicClickListener, SearchDefinitionAdapter.DefinitionClickListener {
 
     ActivitySearchBinding binding;
 
-    private ArrayList<String> text = new ArrayList<>();
-    private ArrayList<String> definitionText = new ArrayList<>();
+    ArrayList<Definition> definitions = new ArrayList<>();
+    ArrayList<Mnemonic> mnemonics = new ArrayList<>();
 
     View prevViewDefinition = null;
     int prevPosDefinition = -100;
@@ -75,7 +80,7 @@ public class SearchActivity extends AppCompatActivity implements SearchMnemonicA
             addWord.setCollectionId(collectionId);
 
             Boolean status = db.addWordToCollection(addWord);
-            if(status) finish();
+            if (status) finish();
             else Log.d("FUCKING WORK", "WORKKK");
         });
 
@@ -99,73 +104,66 @@ public class SearchActivity extends AppCompatActivity implements SearchMnemonicA
         mnemonicLayoutManager.setJustifyContent(JustifyContent.CENTER);
         binding.searchMnemonicRecyclerView.setLayoutManager(mnemonicLayoutManager);
 
-        if(function.equals("search")) {
-            definitionAdapter = new SearchDefinitionAdapter(getApplicationContext(), definitionText, null, true);
+        if (function.equals("search")) {
+            definitionAdapter = new SearchDefinitionAdapter(getApplicationContext(), definitions, this, true);
             binding.searchDefinitionRecyclerView.setAdapter(definitionAdapter);
 
-            mnemonicAdapter = new SearchMnemonicAdapter(getApplicationContext(), text, null, true);
-        }
-        else {
-            definitionAdapter = new SearchDefinitionAdapter(getApplicationContext(), definitionText, this, false);
+            mnemonicAdapter = new SearchMnemonicAdapter(getApplicationContext(), mnemonics, this, true);
+            binding.searchMnemonicRecyclerView.setAdapter(mnemonicAdapter);
+        } else {
+            definitionAdapter = new SearchDefinitionAdapter(getApplicationContext(), definitions, this, false);
             binding.searchDefinitionRecyclerView.setAdapter(definitionAdapter);
 
-            mnemonicAdapter = new SearchMnemonicAdapter(getApplicationContext(), text, this, false);
+            mnemonicAdapter = new SearchMnemonicAdapter(getApplicationContext(), mnemonics, this, false);
+            binding.searchMnemonicRecyclerView.setAdapter(mnemonicAdapter);
         }
-        binding.searchMnemonicRecyclerView.setAdapter(mnemonicAdapter);
-
 
         binding.searchPageSubmit.setOnClickListener(v -> {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
 
+            definitions.clear();
+            mnemonics.clear();
+
+            String word = binding.searchPageText.getText().toString();
 
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
+                    RequestQueue requestQueue = Volley.newRequestQueue(SearchActivity.this);
+                    String url = "http://192.168.56.1:3000/search/" + word;
 
-                    try {
-                        text.clear();
-                        String word = binding.searchPageText.getText().toString();
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+                        try {
+                            JSONArray definitionsText = response.getJSONArray("definitions");
+                            JSONArray mnemonicsText = response.getJSONArray("mnemonics");
 
-                        String baseUrl = "https://mnemonicdictionary.com/word/" + word;
-
-                        String url = baseUrl;
-
-                        Document doc = Jsoup.connect(url).get();
-
-                        Elements data2 = doc.select("div[class=media-body]");
-                        Elements data = doc.select("div[class=card-text] p");
-                       
-
-                        for (Element indData : data) {
-                            if (indData.select("p").text() == "") {
-                                continue;
+                            for (int i = 0; i < definitionsText.length(); i++) {
+                                String definition = definitionsText.get(i).toString();
+                                definitions.add(new Definition(definition));
                             }
-                            if (indData.select("p").text().equals("Powered by Mnemonic Dictionary")) {
-                                continue;
+
+                            for (int i = 0; i < mnemonicsText.length(); i++) {
+                                JSONObject mnemonicObject = mnemonicsText.getJSONObject(i);
+
+                                String mnemonic = mnemonicObject.getString("mnemonic");
+                                int mnemonicLikes = mnemonicObject.getInt("likes");
+                                int mnemonicDislikes = mnemonicObject.getInt("dislikes");
+
+                                if(!mnemonic.equals(""))
+                                    mnemonics.add(new Mnemonic(mnemonic, mnemonicLikes, mnemonicDislikes));
                             }
-                            text.add(indData.select("p").text());
+                            definitionAdapter.notifyDataSetChanged();
+                            mnemonicAdapter.notifyDataSetChanged();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                    }, error -> {
+                        Log.d("HERE", error.toString());
+                    });
 
-
-                        for (Element indData2 : data2) {
-                            ArrayList<String> breakthis = new ArrayList<>();
-                            String[] definitions = indData2.text().split("Definition");
-                            for (String definition : definitions) {
-                                definitionText.add(definition);
-                            }
-                        }
-
-
-
-                        definitionText.remove(0);
-
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-
+                    requestQueue.add(jsonObjectRequest);
 
                     handler.post(new Runnable() {
                         @Override
@@ -173,67 +171,58 @@ public class SearchActivity extends AppCompatActivity implements SearchMnemonicA
                             prevViewDefinition = null;
                             prevPosDefinition = -100;
 
-                            if(!function.equals("search")) {
+                            if (!function.equals("search")) {
                                 binding.addWordCollectionButton.setVisibility(View.VISIBLE);
                             }
 
                             binding.placeholderSearchPage.setVisibility(View.GONE);
                             binding.mainSearchContent.setVisibility(View.VISIBLE);
-                            definitionAdapter.notifyDataSetChanged();
-                            mnemonicAdapter.notifyDataSetChanged();
                         }
                     });
+
                 }
             });
-
         });
-
     }
 
     @Override
-    public void onClickDefinition(View v, int position) {
+    public void onClickDefinition(View v, int position, boolean isSearch) {
+        if (!isSearch) {
+            if (prevViewDefinition == null && prevPosDefinition == -100) {
+                v.findViewById(R.id.add_definition_click_button).setVisibility(View.INVISIBLE);
+                prevViewDefinition = v;
+                prevPosDefinition = position;
+            }
+            if (position != prevPosDefinition && v != prevViewDefinition) {
+                prevViewDefinition.findViewById(R.id.add_definition_click_button).setVisibility(View.VISIBLE);
+                v.findViewById(R.id.add_definition_click_button).setVisibility(View.INVISIBLE);
+                prevViewDefinition = v;
+                prevPosDefinition = position;
+            }
 
-        if (prevViewDefinition == null && prevPosDefinition == -100) {
-            v.findViewById(R.id.add_definition_click_button).setVisibility(View.INVISIBLE);
-            prevViewDefinition = v;
-            prevPosDefinition = position;
+            TextView wordType;
+            wordType = v.findViewById(R.id.definition_type);
+
+            selectedDefinition = definitions.get(position).getDefiniton();
+            selectedType = wordType.getText().toString();
         }
-        if (position != prevPosDefinition && v != prevViewDefinition) {
-            prevViewDefinition.findViewById(R.id.add_definition_click_button).setVisibility(View.VISIBLE);
-            v.findViewById(R.id.add_definition_click_button).setVisibility(View.INVISIBLE);
-            prevViewDefinition = v;
-            prevPosDefinition = position;
-        }
-
-        TextView wordType;
-        wordType = v.findViewById(R.id.definition_type);
-
-        selectedDefinition = definitionText.get(position);
-
-        selectedType = wordType.getText().toString();
-
-        Log.d("DEFINITION", selectedDefinition);
-        Log.d("DEFINITIONTYPE", selectedType);
-
     }
 
     @Override
-    public void onClickMnemonic(View v, int position) {
-
-        if (prevViewMnemonic == null && getPrevPosMnemonic == -100) {
-            v.findViewById(R.id.add_mnemonic_click_button).setVisibility(View.INVISIBLE);
-            prevViewMnemonic = v;
-            getPrevPosMnemonic = position;
+    public void onClickMnemonic(View v, int position, boolean isSearch) {
+        if (!isSearch) {
+            if (prevViewMnemonic == null && getPrevPosMnemonic == -100) {
+                v.findViewById(R.id.add_mnemonic_click_button).setVisibility(View.INVISIBLE);
+                prevViewMnemonic = v;
+                getPrevPosMnemonic = position;
+            }
+            if (position != getPrevPosMnemonic && v != prevViewMnemonic) {
+                prevViewMnemonic.findViewById(R.id.add_mnemonic_click_button).setVisibility(View.VISIBLE);
+                v.findViewById(R.id.add_mnemonic_click_button).setVisibility(View.INVISIBLE);
+                prevViewMnemonic = v;
+                getPrevPosMnemonic = position;
+            }
+            selectedMnemonic = mnemonics.get(position).getMnemonic();
         }
-        if (position != getPrevPosMnemonic && v != prevViewMnemonic) {
-            prevViewMnemonic.findViewById(R.id.add_mnemonic_click_button).setVisibility(View.VISIBLE);
-            v.findViewById(R.id.add_mnemonic_click_button).setVisibility(View.INVISIBLE);
-            prevViewMnemonic = v;
-            getPrevPosMnemonic = position;
-        }
-        selectedMnemonic = text.get(position);
-
-        Log.d("MNEMONIC", selectedMnemonic);
-
     }
 }

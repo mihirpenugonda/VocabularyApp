@@ -1,147 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/silverAppPalette">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_word_collection_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dp"
+        android:backgroundTint="@color/greyAppPalette"
+        android:clickable="true"
+        android:src="@drawable/add"
+        android:visibility="invisible" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/silverAppPalette">
 
-        <ImageButton
-            android:id="@+id/back_click_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/button_main_background"
-            android:backgroundTint="@color/greyAppPalette"
-            android:scaleType="center"
-            android:src="@drawable/back" />
-
-        <EditText
-            android:id="@+id/search_page_text"
-            android:layout_width="275dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_main_background"
-            android:backgroundTint="@color/greyAppPalette"
-            android:ems="10"
-            android:hint="Enter Word"
-            android:inputType="textPersonName"
-            android:padding="30px" />
-
-        <Button
-            android:id="@+id/search_page_submit"
-            android:layout_width="150dp"
-            android:layout_height="150px"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="Submit"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="45px"
-            android:textStyle="bold" />
-
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/placeholderSearchPage"
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:id="@+id/back_click_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/button_main_background"
+                android:backgroundTint="@color/greyAppPalette"
+                android:scaleType="center"
+                android:src="@drawable/back" />
+
+            <EditText
+                android:id="@+id/search_page_text"
+                android:layout_width="275dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/roboto"
-                android:text="Search for a Word"
-                android:textColor="@color/blackAppPalette"
-                android:textSize="55px"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_main_background"
+                android:backgroundTint="@color/greyAppPalette"
+                android:ems="10"
+                android:hint="Enter Word"
+                android:inputType="textPersonName"
+                android:padding="30px" />
+
+            <Button
+                android:id="@+id/search_page_submit"
+                android:layout_width="150dp"
+                android:layout_height="150px"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="45px"
                 android:textStyle="bold" />
 
-
-            
-
-            <LinearLayout
-                android:id="@+id/mainSearchContent"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                android:visibility="invisible">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/placeholderSearchPage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
                     android:fontFamily="@font/roboto"
-                    android:text="Definition"
+                    android:text="Search for a Word"
                     android:textColor="@color/blackAppPalette"
                     android:textSize="55px"
                     android:textStyle="bold" />
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/search_definition_recycler_view"
+                <LinearLayout
+                    android:id="@+id/mainSearchContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal" />
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Definition"
+                        android:textColor="@color/blackAppPalette"
+                        android:textSize="55px"
+                        android:textStyle="bold" />
 
 
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="Mnemonics"
-                    android:textColor="@color/blackAppPalette"
-                    android:textSize="55px"
-                    android:textStyle="bold" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/search_mnemonic_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="20dp"
-                    android:orientation="horizontal" />
-
-            </LinearLayout>
-
-        </FrameLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/search_definition_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" />
 
 
-        <Button
-            android:id="@+id/add_word_collection_button"
-            android:layout_width="wrap_content"
-            android:layout_height="150px"
-            android:layout_gravity="center"
-            android:layout_marginBottom="0dp"
-            android:text="Add Word"
-            android:textAllCaps="false"
-            android:textColor="@color/blackAppPalette"
-            android:textSize="45px"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:backgroundTint="@color/white"
-            app:cornerRadius="5dp" />
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Mnemonics"
+                        android:textColor="@color/blackAppPalette"
+                        android:textSize="55px"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/search_mnemonic_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="20dp"
+                        android:orientation="horizontal" />
+
+                </LinearLayout>
+
+            </FrameLayout>
 
 
-    </LinearLayout>
+<!--            <Button-->
+<!--                android:id="@+id/add_word_collection_button"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="150px"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginBottom="0dp"-->
+<!--                android:text="Add Word"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textColor="@color/blackAppPalette"-->
+<!--                android:textSize="45px"-->
+<!--                android:textStyle="bold"-->
+<!--                android:visibility="gone"-->
+<!--                app:backgroundTint="@color/white"-->
+<!--                app:cornerRadius="5dp" />-->
 
-</ScrollView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</FrameLayout>
+
+
 
 

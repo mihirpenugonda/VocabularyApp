@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/silverAppPalette"
-    tools:cWontext=".Activities.StartActivity">
+    tools:context=".Activities.ProfileActivity">
 
     <ImageButton
-        android:id="@+id/add_collection_back"
+        android:id="@+id/profile_back"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="30dp"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/add_collection_name"
+        android:id="@+id/profile_user_name"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="144dp"
@@ -30,23 +30,22 @@
         android:background="@drawable/button_main_background"
         android:backgroundTint="@color/greyAppPalette"
         android:ems="10"
-        android:hint="Enter Collection Name"
+        android:hint="Enter Username"
         android:inputType="textPersonName"
         android:padding="30px"
         android:textColorHint="@color/blackAppPalette"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_collection_back" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_back" />
 
     <Button
-        android:id="@+id/add_collection_submit"
+        android:id="@+id/profile_update"
         android:layout_width="150dp"
         android:layout_height="150px"
         android:layout_marginTop="29dp"
         android:layout_marginBottom="364dp"
-        android:text="Submit"
+        android:text="Update"
         android:textAllCaps="false"
         android:textColor="@color/blackAppPalette"
         android:textSize="45px"
@@ -55,7 +54,31 @@
         app:cornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_collection_name" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_name"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/profile_delete_all"
+        android:layout_width="150dp"
+        android:layout_height="150px"
+        android:layout_marginStart="131dp"
+        android:layout_marginLeft="131dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginRight="130dp"
+        android:layout_marginBottom="290dp"
+        android:text="Delete Data"
+        android:textAllCaps="false"
+        android:textColor="@color/blackAppPalette"
+        android:textSize="45px"
+        android:textStyle="bold"
+        app:backgroundTint="@color/white"
+        app:cornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_update" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

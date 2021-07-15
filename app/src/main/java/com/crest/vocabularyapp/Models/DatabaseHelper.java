@@ -140,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(queryDeleteWords);
 
-        return true;
+        return true; 
     }
 
     public ArrayList<Word> getCollectionsWord(int collectionId) {
@@ -166,6 +166,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return collectionsWord;
+    }
+
+    public boolean deleteAll() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String dropDefinitions = "delete from " + WORD_TABLE;
+        String dropCollections = "delete from " + COLLECTION_TABLE;
+
+        db.execSQL(dropDefinitions);
+        db.execSQL(dropCollections);
+
+        return true;
     }
 
 }

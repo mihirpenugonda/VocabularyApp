@@ -2,6 +2,7 @@ package com.crest.vocabularyapp.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements MainCollectionAda
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        SharedPreferences sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE);
+        binding.mainActivityUser.setText("Hello, " + sharedPreferences.getString("username", "Mihir"));
+
         DatabaseHelper db = new DatabaseHelper(MainActivity.this);
 
         binding.searchWordButton.setOnClickListener(v -> {
@@ -46,6 +50,11 @@ public class MainActivity extends AppCompatActivity implements MainCollectionAda
 
         binding.addCollectionButton.setOnClickListener( v -> {
             Intent i = new Intent(MainActivity.this, AddCollectionActivity.class);
+            startActivity(i);
+        });
+
+        binding.profileButton.setOnClickListener( v -> {
+            Intent i = new Intent(MainActivity.this, ProfileActivity.class);
             startActivity(i);
         });
 
