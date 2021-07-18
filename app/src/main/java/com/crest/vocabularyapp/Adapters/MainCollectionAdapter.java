@@ -1,6 +1,7 @@
 package com.crest.vocabularyapp.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.crest.vocabularyapp.databinding.CollectionMainItemBinding;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 public class MainCollectionAdapter extends RecyclerView.Adapter<MainCollectionAdapter.CollectionViewHolder> {
 
@@ -40,8 +43,15 @@ public class MainCollectionAdapter extends RecyclerView.Adapter<MainCollectionAd
     public void onBindViewHolder(@NonNull @NotNull MainCollectionAdapter.CollectionViewHolder holder, int position) {
         Collection current = collections.get(position);
 
+        if(current.getNumberOfWords() == -1) {
+            holder.binding.collectionNumberText.setVisibility(View.INVISIBLE);
+            holder.binding.collectionNumberTextDefinition.setVisibility(View.INVISIBLE);
+            holder.binding.collectionClickButton.setVisibility(View.INVISIBLE);
+        }
+        else {
+            holder.binding.collectionNumberText.setText(String.valueOf(current.getNumberOfWords()));
+        }
         holder.binding.collectionNameView.setText(current.getName());
-        holder.binding.collectionNumberText.setText(String.valueOf(current.getNumberOfWords()));
 
     }
 
@@ -79,7 +89,6 @@ public class MainCollectionAdapter extends RecyclerView.Adapter<MainCollectionAd
 
     public interface ItemClickListener {
         void onItemClick(int position);
-
         void onItemLongClick(int position);
     }
 }

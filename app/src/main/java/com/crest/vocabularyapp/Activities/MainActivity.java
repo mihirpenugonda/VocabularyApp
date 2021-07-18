@@ -23,6 +23,8 @@ import com.crest.vocabularyapp.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 
+import static android.content.ContentValues.TAG;
+
 public class MainActivity extends AppCompatActivity implements MainCollectionAdapter.ItemClickListener {
 
     ActivityMainBinding binding;
@@ -61,7 +63,12 @@ public class MainActivity extends AppCompatActivity implements MainCollectionAda
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         binding.collectionRecyclerView.setLayoutManager(layoutManager);
 
+        collections.clear();
         collections = db.getCollections();
+
+        if(collections.size() == 0) {
+            collections.add(new Collection("No Collections Available", -1));
+        }
 
         adapter = new MainCollectionAdapter(this, collections, this);
         binding.collectionRecyclerView.setAdapter(adapter);
@@ -73,7 +80,13 @@ public class MainActivity extends AppCompatActivity implements MainCollectionAda
     @Override
     protected void onResume() {
         super.onResume();
+
+        collections.clear();
         collections = db.getCollections();
+
+        if(collections.size() == 0) {
+            collections.add(new Collection("No Collections Available", -1));
+        }
 
         adapter = new MainCollectionAdapter(this, collections, this);
         binding.collectionRecyclerView.setAdapter(adapter);

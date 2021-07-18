@@ -47,15 +47,15 @@
             android:text="Number"
             android:textColor="@color/white"
             android:textSize="45px"
-            app:layout_constraintBottom_toBottomOf="@+id/textView8"
+            app:layout_constraintBottom_toBottomOf="@+id/collection_number_text_definition"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/textView8"
-            app:layout_constraintTop_toTopOf="@+id/textView8"
+            app:layout_constraintStart_toEndOf="@+id/collection_number_text_definition"
+            app:layout_constraintTop_toTopOf="@+id/collection_number_text_definition"
             app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
-            android:id="@+id/back_click_button"
+            android:id="@+id/collection_click_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="end"
@@ -76,7 +76,7 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/collection_number_text_definition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
