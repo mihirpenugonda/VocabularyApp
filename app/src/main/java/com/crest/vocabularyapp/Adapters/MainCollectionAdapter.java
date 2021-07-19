@@ -25,11 +25,13 @@ public class MainCollectionAdapter extends RecyclerView.Adapter<MainCollectionAd
     private ArrayList<Collection> collections;
     private Context context;
     private ItemClickListener mItemClickListener;
+    private boolean isEmpty;
 
-    public MainCollectionAdapter(Context context, ArrayList<com.crest.vocabularyapp.Models.Collection> collections, ItemClickListener itemClickListener) {
+    public MainCollectionAdapter(Context context, ArrayList<com.crest.vocabularyapp.Models.Collection> collections, ItemClickListener itemClickListener, boolean isEmpty) {
         this.context = context;
         this.collections = collections;
         this.mItemClickListener = itemClickListener;
+        this.isEmpty = isEmpty;
     }
 
     @NonNull
@@ -51,8 +53,8 @@ public class MainCollectionAdapter extends RecyclerView.Adapter<MainCollectionAd
         else {
             holder.binding.collectionNumberText.setText(String.valueOf(current.getNumberOfWords()));
         }
-        holder.binding.collectionNameView.setText(current.getName());
 
+        holder.binding.collectionNameView.setText(current.getName());
     }
 
     @Override
@@ -71,6 +73,11 @@ public class MainCollectionAdapter extends RecyclerView.Adapter<MainCollectionAd
             this.itemClickListener = itemClickListener;
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+
+            if(isEmpty) {
+                itemView.setOnClickListener(null);
+                itemView.setOnLongClickListener(null);
+            }
 
         }
 

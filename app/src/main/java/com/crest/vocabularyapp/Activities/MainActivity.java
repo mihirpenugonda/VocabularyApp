@@ -33,13 +33,15 @@ public class MainActivity extends AppCompatActivity implements MainCollectionAda
     MainCollectionAdapter adapter;
     DatabaseHelper db = new DatabaseHelper(MainActivity.this);
 
+    boolean isEmpty = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        SharedPreferences sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("userData", this.MODE_PRIVATE);
         binding.mainActivityUser.setText("Hello, " + sharedPreferences.getString("username", "Mihir"));
 
         DatabaseHelper db = new DatabaseHelper(MainActivity.this);
@@ -68,9 +70,10 @@ public class MainActivity extends AppCompatActivity implements MainCollectionAda
 
         if(collections.size() == 0) {
             collections.add(new Collection("No Collections Available", -1));
+            isEmpty = true;
         }
 
-        adapter = new MainCollectionAdapter(this, collections, this);
+        adapter = new MainCollectionAdapter(this, collections, this, isEmpty);
         binding.collectionRecyclerView.setAdapter(adapter);
 
         registerForContextMenu(binding.collectionRecyclerView);
@@ -81,14 +84,20 @@ public class MainActivity extends AppCompatActivity implements MainCollectionAda
     protected void onResume() {
         super.onResume();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("userData", this.MODE_PRIVATE);
+        binding.mainActivityUser.setText("Hello, " + sharedPreferences.getString("username", "Mihir"));
+
         collections.clear();
         collections = db.getCollections();
 
+        isEmpty = false;
+
         if(collections.size() == 0) {
             collections.add(new Collection("No Collections Available", -1));
+            isEmpty = true;
         }
 
-        adapter = new MainCollectionAdapter(this, collections, this);
+        adapter = new MainCollectionAdapter(this, collections, this, isEmpty);
         binding.collectionRecyclerView.setAdapter(adapter);
     }
 
@@ -110,9 +119,10 @@ public class MainActivity extends AppCompatActivity implements MainCollectionAda
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        isEmpty = false;
                         db.deleteCollection(collections.get(position).getId());
                         collections = db.getCollections();
-                        MainCollectionAdapter adapter = new MainCollectionAdapter(MainActivity.this, collections, MainActivity.this);
+                        MainCollectionAdapter adapter = new MainCollectionAdapter(MainActivity.this, collections, MainActivity.this, isEmpty);
                         binding.collectionRecyclerView.setAdapter(adapter);
                     }
                 })

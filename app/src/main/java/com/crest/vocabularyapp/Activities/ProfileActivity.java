@@ -35,7 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             db.deleteAll();
                         }
-                    });
+                    }).show();
             });
 
         binding.profileUpdate.setOnClickListener(v -> {
@@ -43,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
             SharedPreferences.Editor myEdit = sharedPreferences.edit();
             myEdit.putString("username", binding.profileUserName.getText().toString());
             myEdit.commit();
+            finish();
         });
     }
 }
